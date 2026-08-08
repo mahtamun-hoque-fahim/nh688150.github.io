@@ -36,6 +36,11 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. Maximum 10 entries — drop the oldest when an 11th is added.)
 
+### 2026-08-08 (3)
+- Did: Reverted Raw Performance's background treatment back to the original card-internal fill+object-cover (object-right-bottom), per Fahim showing a screenshot of an earlier Vercel preview he preferred. Removed the gradient overlay div entirely per his instruction — no darkening wash over the image anymore.
+- Decided: Fahim's preference for this specific section overrides the "matches mockup more accurately" reasoning from the previous session — the visually bolder, more visible treatment was the one he wanted, not the more subtle/faithful-to-mockup one Claude had substituted.
+- Next: Confirm on Vercel; continue toward `/folio`, `/reelvault`, `/hearth` subpages when ready.
+
 ### 2026-08-08 (2)
 - Did: Diagnosed and fixed a severe hero background crop bug (55% of the image was being cut off — `object-cover` inside a wide-short container). Then restructured on Fahim's suggestion: Navbar is now `fixed` (floats transparently over the hero, no longer occupies layout space), Hero is `min-h-screen` with a true full-bleed `object-cover` background. This also fixed the crop math properly (81.7% visible vs. 44.8% before) since a full-viewport container's aspect ratio is much closer to the image's native proportions. Also moved the Raw Performance section's background glow to section-level (bleeding up from below the card) instead of confined inside it, matching the mockup.
 - Decided: `object-cover` crop severity is driven entirely by how far the container's aspect ratio departs from the image's — check this before reaching for `fill`/`cover` on any future background image, most images have an intentional aspect ratio not meant to be reflowed into an arbitrary box shape.
