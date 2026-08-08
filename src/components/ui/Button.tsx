@@ -10,7 +10,7 @@ interface ButtonProps {
 }
 
 const base =
-  "inline-flex items-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-all duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2";
+  "inline-flex items-center gap-2 rounded-none px-5 py-3 text-sm font-semibold transition-all duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2";
 
 const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:

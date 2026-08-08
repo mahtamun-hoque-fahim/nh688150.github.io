@@ -67,7 +67,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/#download"
-            className="hidden items-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 ease-out hover:bg-accent-hover hover:shadow-[0_0_0_1px_var(--color-accent-hover),0_0_20px_var(--color-accent-faint)] sm:inline-flex"
+            className="hidden items-center gap-2 rounded-none bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 ease-out hover:bg-accent-hover hover:shadow-[0_0_0_1px_var(--color-accent-hover),0_0_20px_var(--color-accent-faint)] sm:inline-flex"
           >
             <Download className="h-4 w-4" strokeWidth={2.25} />
             Download
@@ -78,7 +78,7 @@ export function Navbar() {
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="inline-flex items-center justify-center rounded-md border border-border bg-surface p-2.5 text-text transition-colors duration-150 hover:border-border-strong md:hidden"
+            className="inline-flex items-center justify-center rounded-none border border-border bg-surface p-2.5 text-text transition-colors duration-150 hover:border-border-strong md:hidden"
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -103,7 +103,7 @@ export function Navbar() {
               <Link
                 href="/#download"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-white"
+                className="flex items-center justify-center gap-2 rounded-none bg-accent px-4 py-3 text-sm font-semibold text-white"
               >
                 <Download className="h-4 w-4" strokeWidth={2.25} />
                 Download

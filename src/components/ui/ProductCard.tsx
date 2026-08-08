@@ -26,7 +26,7 @@ export function ProductCard({ name, badge, description, cta, status }: ProductCa
       {cta && (
         <Link
           href={cta.href}
-          className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-md bg-surface-elevated px-4 py-2 text-sm font-semibold text-text transition-all duration-200 ease-out group-hover:bg-[#22242c] hover:gap-2.5"
+          className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-none bg-surface-elevated px-4 py-2 text-sm font-semibold text-text transition-all duration-200 ease-out group-hover:bg-[#22242c] hover:gap-2.5"
         >
           {cta.label}
           <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} />
