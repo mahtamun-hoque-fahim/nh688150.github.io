@@ -5,23 +5,20 @@ import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-bg">
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] opacity-90"
-        aria-hidden="true"
-      >
+    <section className="relative flex min-h-screen items-center overflow-hidden bg-bg">
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <Image
           src="/images/hero-bg.png"
           alt=""
           fill
           priority
-          className="object-cover object-left-bottom"
+          className="object-cover object-bottom opacity-90"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-bg/40" />
       </div>
 
-      <div className="relative mx-auto max-w-5xl px-6 pb-40 pt-24 text-center sm:pt-32 lg:px-8">
+      <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-32 text-center sm:pt-24 lg:px-8">
         <Reveal>
           <h1 className="text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
             Quality Software

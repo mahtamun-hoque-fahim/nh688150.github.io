@@ -36,7 +36,12 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. Maximum 10 entries — drop the oldest when an 11th is added.)
 
-### 2026-08-08
+### 2026-08-08 (2)
+- Did: Diagnosed and fixed a severe hero background crop bug (55% of the image was being cut off — `object-cover` inside a wide-short container). Then restructured on Fahim's suggestion: Navbar is now `fixed` (floats transparently over the hero, no longer occupies layout space), Hero is `min-h-screen` with a true full-bleed `object-cover` background. This also fixed the crop math properly (81.7% visible vs. 44.8% before) since a full-viewport container's aspect ratio is much closer to the image's native proportions. Also moved the Raw Performance section's background glow to section-level (bleeding up from below the card) instead of confined inside it, matching the mockup.
+- Decided: `object-cover` crop severity is driven entirely by how far the container's aspect ratio departs from the image's — check this before reaching for `fill`/`cover` on any future background image, most images have an intentional aspect ratio not meant to be reflowed into an arbitrary box shape.
+- Next: Fahim to confirm this matches expectations, then re-verify on Vercel.
+
+### 2026-08-08 (1)
 - Did: Built and shipped the full homepage — Navbar (sticky frosted-glass, mobile hamburger), Hero, People Believes (3 product cards), Raw Performance (live diagnostic panel), CTA Banner, Footer. Scroll-reveal and hover states on every section. Verified responsive on mobile/desktop via Puppeteer screenshots.
 - Decided: Self-hosted fonts (Fontsource) instead of `next/font/google` — sandbox network couldn't reach Google Fonts CDN, and self-hosting avoids a runtime dependency on it anyway. Also added a mobile hamburger menu not present in the original mockup, since the desktop-only nav would've made Product/Privacy/Contact unreachable on phones.
 - Next: Fahim to review against mockup; then push to GitHub, import to Vercel, confirm live build; then scope `/folio`, `/reelvault`, `/hearth` subpages.

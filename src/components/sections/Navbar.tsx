@@ -32,7 +32,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ease-out ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-out ${
         scrolled || menuOpen
           ? "border-b border-border bg-bg/70 backdrop-blur-xl shadow-[0_1px_0_0_rgba(255,255,255,0.03)]"
           : "border-b border-transparent bg-transparent"
