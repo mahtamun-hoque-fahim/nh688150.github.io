@@ -36,6 +36,11 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. Maximum 10 entries — drop the oldest when an 11th is added.)
 
+### 2026-08-08 (4)
+- Did: Added a dedicated hero-specific background image (`hero-section-bg.png`, wave confined to bottom-left, ~2:1 aspect ratio — closer to viewport proportions than the shared asset, so `object-cover` barely needs to crop). Built `HeroParallaxBg.tsx` — a client component applying `translate3d(0, scrollY * 0.3, 0)` via a scroll listener + rAF, disabled under `prefers-reduced-motion`. Removed the hero's gradient overlay entirely. Set title to `text-white`, description to exact `#eeeeee` per instruction. Raw Performance section untouched — keeps the original shared `hero-bg.png`.
+- Decided: anchored the new image's object-position to `left-bottom` rather than `bottom` (center) — the wave graphic sits in the source image's bottom-left corner, and on narrow mobile viewports a center-anchored crop would have cut through it.
+- Next: Confirm on Vercel; continue toward `/folio`, `/reelvault`, `/hearth` subpages when ready.
+
 ### 2026-08-08 (3)
 - Did: Reverted Raw Performance's background treatment back to the original card-internal fill+object-cover (object-right-bottom), per Fahim showing a screenshot of an earlier Vercel preview he preferred. Removed the gradient overlay div entirely per his instruction — no darkening wash over the image anymore.
 - Decided: Fahim's preference for this specific section overrides the "matches mockup more accurately" reasoning from the previous session — the visually bolder, more visible treatment was the one he wanted, not the more subtle/faithful-to-mockup one Claude had substituted.
