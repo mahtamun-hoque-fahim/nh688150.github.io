@@ -10,85 +10,155 @@ const logLines = [
   "[INFO] Ready for local document ingestion.",
 ];
 
+const LOADING_LABEL = "[INFO] Loading...";
 const GPU_TARGET = 84;
 const OCR_TARGET = 32;
 
-type Phase = "idle" | "loading" | "streaming" | "done";
+// Timing -- deliberately unhurried so the ramp-up is felt, not just seen.
+const FLY_IN_SETTLE_MS = 900; // fly-in transition + a beat before anything happens
+const LABEL_TYPE_MS = 42; // per character
+const PCT_DURATION_MS = 2400; // 0 -> 100, eased
+const GAP_AFTER_LOADING_MS = 350;
+const LOG_TYPE_MS = 20; // per character
+const LOG_LINE_GAP_MS = 240;
+const BAR_DURATION_MS = 2800; // 0 -> target, eased
+const FINAL_LABEL_TYPE_MS = 42;
+
+// Accelerating curve -- starts slow, visibly speeds up. This is the whole point.
+const easeInQuad = (t: number) => t * t;
+
+type Phase = "idle" | "label" | "counting" | "streaming" | "done";
 
 interface DiagnosticPanelProps {
   active: boolean;
 }
 
+function typeText(
+  text: string,
+  speedMs: number,
+  onChar: (partial: string) => void,
+  onDone: () => void
+): () => void {
+  let i = 0;
+  let timer: number;
+  const step = () => {
+    i++;
+    onChar(text.slice(0, i));
+    if (i < text.length) {
+      timer = window.setTimeout(step, speedMs);
+    } else {
+      onDone();
+    }
+  };
+  timer = window.setTimeout(step, speedMs);
+  return () => window.clearTimeout(timer);
+}
+
+function animateValue(
+  duration: number,
+  target: number,
+  onUpdate: (value: number) => void,
+  onDone: () => void
+): () => void {
+  const start = performance.now();
+  let raf: number;
+  const tick = (now: number) => {
+    const t = Math.min(1, (now - start) / duration);
+    onUpdate(Math.round(easeInQuad(t) * target));
+    if (t < 1) {
+      raf = requestAnimationFrame(tick);
+    } else {
+      onDone();
+    }
+  };
+  raf = requestAnimationFrame(tick);
+  return () => cancelAnimationFrame(raf);
+}
+
 export function DiagnosticPanel({ active }: DiagnosticPanelProps) {
   const [phase, setPhase] = useState<Phase>("idle");
+  const [loadingLabelTyped, setLoadingLabelTyped] = useState("");
   const [loadingPct, setLoadingPct] = useState(0);
-  const [visibleLines, setVisibleLines] = useState(0);
+  const [lineTyped, setLineTyped] = useState<string[]>([]);
+  const [currentLine, setCurrentLine] = useState("");
   const [gpuUtil, setGpuUtil] = useState(0);
   const [ocrPct, setOcrPct] = useState(0);
+  const [finalLabelTyped, setFinalLabelTyped] = useState("");
   const [dotCount, setDotCount] = useState(0);
   const startedRef = useRef(false);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
-  // Kick off the whole sequence the first time the panel becomes active
+  // Orchestrate the whole boot sequence the first time the panel becomes active
   useEffect(() => {
     if (!active || startedRef.current) return;
     startedRef.current = true;
+
+    const cleanups: Array<() => void> = [];
+    const timers: number[] = [];
+    const setT = (fn: () => void, ms: number) => {
+      const id = window.setTimeout(fn, ms);
+      timers.push(id);
+    };
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (reduceMotion) {
       setPhase("done");
+      setLoadingLabelTyped(LOADING_LABEL);
       setLoadingPct(100);
-      setVisibleLines(logLines.length);
+      setLineTyped(logLines);
+      setCurrentLine("");
       setGpuUtil(GPU_TARGET);
       setOcrPct(OCR_TARGET);
+      setFinalLabelTyped("Initializing");
       return;
     }
 
-    setPhase("loading");
+    // Bars start filling once the panel has settled in -- independent of the text sequence
+    setT(() => {
+      cleanups.push(animateValue(BAR_DURATION_MS, GPU_TARGET, setGpuUtil, () => {}));
+      cleanups.push(animateValue(BAR_DURATION_MS, OCR_TARGET, setOcrPct, () => {}));
+    }, FLY_IN_SETTLE_MS);
 
-    let pct = 0;
-    const loadInterval = setInterval(() => {
-      pct = Math.min(100, pct + Math.round(7 + Math.random() * 11));
-      setLoadingPct(pct);
-      if (pct >= 100) {
-        clearInterval(loadInterval);
-        window.setTimeout(() => setPhase("streaming"), 200);
-      }
-    }, 45);
-
-    let gpu = 0;
-    const gpuInterval = setInterval(() => {
-      gpu = Math.min(GPU_TARGET, gpu + Math.ceil((GPU_TARGET - gpu) * 0.2) + 1);
-      setGpuUtil(gpu);
-      if (gpu >= GPU_TARGET) clearInterval(gpuInterval);
-    }, 40);
-
-    let ocr = 0;
-    const ocrInterval = setInterval(() => {
-      ocr = Math.min(OCR_TARGET, ocr + Math.ceil((OCR_TARGET - ocr) * 0.25) + 1);
-      setOcrPct(ocr);
-      if (ocr >= OCR_TARGET) clearInterval(ocrInterval);
-    }, 40);
+    // Text sequence: type "Loading...", then count the percentage up
+    setT(() => {
+      setPhase("label");
+      cleanups.push(
+        typeText(LOADING_LABEL, LABEL_TYPE_MS, setLoadingLabelTyped, () => {
+          setPhase("counting");
+          setT(() => {
+            cleanups.push(
+              animateValue(PCT_DURATION_MS, 100, setLoadingPct, () => {
+                setT(() => setPhase("streaming"), GAP_AFTER_LOADING_MS);
+              })
+            );
+          }, 150);
+        })
+      );
+    }, FLY_IN_SETTLE_MS);
 
     return () => {
-      clearInterval(loadInterval);
-      clearInterval(gpuInterval);
-      clearInterval(ocrInterval);
+      timers.forEach(window.clearTimeout);
+      cleanups.forEach((fn) => fn());
     };
   }, [active]);
 
-  // Stream the log lines in one at a time once loading finishes
+  // Stream the log lines in one at a time, each typed character by character
   useEffect(() => {
     if (phase !== "streaming") return;
-    if (visibleLines >= logLines.length) {
+    if (lineTyped.length >= logLines.length) {
       setPhase("done");
       return;
     }
-    const t = window.setTimeout(() => setVisibleLines((n) => n + 1), 220);
-    return () => window.clearTimeout(t);
-  }, [phase, visibleLines]);
+    const line = logLines[lineTyped.length];
+    const cleanup = typeText(line, LOG_TYPE_MS, setCurrentLine, () => {
+      setLineTyped((prev) => [...prev, line]);
+      setCurrentLine("");
+    });
+    return cleanup;
+  }, [phase, lineTyped]);
 
-  // Once settled, let GPU util drift subtly like a live system
+  // Once fully booted, let GPU util drift subtly like a live system
   useEffect(() => {
     if (phase !== "done") return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -104,19 +174,29 @@ export function DiagnosticPanel({ active }: DiagnosticPanelProps) {
     return () => clearInterval(interval);
   }, [phase]);
 
-  // Infinite looping "Initializing..." dots on the cursor line
+  // Type "Initializing" once settled, then loop the dots forever
   useEffect(() => {
-    if (!active) return;
+    if (phase !== "done") return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) {
+      setFinalLabelTyped("Initializing");
       setDotCount(3);
       return;
     }
-    const interval = setInterval(() => {
-      setDotCount((d) => (d + 1) % 4);
-    }, 400);
-    return () => clearInterval(interval);
-  }, [active]);
+
+    const cleanup = typeText("Initializing", FINAL_LABEL_TYPE_MS, setFinalLabelTyped, () => {
+      const interval = setInterval(() => {
+        setDotCount((d) => (d + 1) % 4);
+      }, 420);
+      cleanupRef.current = () => clearInterval(interval);
+    });
+
+    return () => {
+      cleanup();
+      cleanupRef.current?.();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
 
   return (
     <div
@@ -163,18 +243,21 @@ export function DiagnosticPanel({ active }: DiagnosticPanelProps) {
         <div className="min-h-[112px] rounded-md bg-surface p-4 text-xs leading-relaxed text-text-muted">
           {phase !== "idle" && (
             <p className={loadingPct < 100 ? "text-text" : "text-text-muted"}>
-              [INFO] Loading<span className="tabular-nums">... {loadingPct}%</span>
+              {loadingLabelTyped}
+              {(phase === "counting" || phase === "streaming" || phase === "done") && (
+                <span className="tabular-nums"> {loadingPct}%</span>
+              )}
             </p>
           )}
 
-          {(phase === "streaming" || phase === "done") &&
-            logLines
-              .slice(0, phase === "done" ? logLines.length : visibleLines)
-              .map((line) => <p key={line}>{line}</p>)}
+          {lineTyped.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+          {phase === "streaming" && currentLine && <p>{currentLine}</p>}
 
           {phase === "done" && (
             <p className="text-text-muted">
-              Initializing
+              {finalLabelTyped}
               <span className="inline-block w-[1.5em]">{".".repeat(dotCount)}</span>
               <span className="inline-block h-3 w-1.5 translate-y-0.5 animate-pulse bg-accent" />
             </p>
