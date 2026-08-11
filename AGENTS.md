@@ -36,6 +36,11 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. Maximum 10 entries — drop the oldest when an 11th is added.)
 
+### 2026-08-11 (8)
+- Did: Started the `/products` page build. Created `WaveBg.tsx` — a reusable background component wrapping `hero-section-bg.png` in three variants (`grayscale`, `rotated` i.e. grayscale + 180° rotation, `normal`), with the rotation and optional parallax transform applied on separate layers so they never collide when combined. Built `ProductsHero.tsx` (grayscale variant, parallax on) with the confirmed copy and no CTA buttons, and the `/products` route rendering Navbar + ProductsHero + Footer. Rewired the Navbar "Product" link and both "Visit Products Page" buttons (homepage Hero + CTABanner) from the old `/#product` anchor to the real `/products` route. Verified with `tsc --noEmit`, `next build`, and Puppeteer screenshots at desktop (1440px) and mobile (390px).
+- Decided: split `WaveBg`'s rotation and parallax into two nested layers instead of one, since both need to set `transform` via different mechanisms (a static inline rotate vs. a scroll-driven `translate3d` from rAF) — combining them on one element would have had one silently overwrite the other.
+- Next: build the product-listing section (alternating Folio/ReelVault/Hearth panels) using the `rotated` WaveBg variant, then the `normal` variant treatment before the CTA banner, then scope `/folio`, `/reelvault`, `/hearth`.
+
 ### 2026-08-08 (7)
 - Did: Fixed the terminal log box growing in height as lines streamed in -- it was `min-h-[112px]`, which let content overflow and expand the box as text accumulated. Measured the fully-populated height via Puppeteer (169px for all 7 eventual lines: Loading + 5 log lines + Initializing) and switched to a fixed `h-[172px] overflow-hidden` (small safety margin). Verified height stays exactly 172px at every sampled point across the full ~10s sequence, from empty fly-in to fully settled.
 - Next: Confirm on Vercel; continue toward `/folio`, `/reelvault`, `/hearth` subpages when ready.

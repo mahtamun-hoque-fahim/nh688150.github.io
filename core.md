@@ -37,3 +37,20 @@ Standalone log of everything Fahim says/instructs for this project, appended as 
 - Instructions: (1) every button gets sharp edges (no border-radius), (2) Raw Performance section redesigned with a scroll-triggered boot sequence -- no dark overlay on bg img, terminal panel flies in while the bg image punches into a zoom, a "Loading N%" counter runs first (fast), then the INFO/OK log lines stream in one at a time, GPU_THREAD_UTIL bar rapid-fills with the percentage counting up alongside it, and the cursor line becomes a permanent looping "Initializing" / "Initializing." / "Initializing.." / "Initializing..." cycle, forever.
 - Feedback on the boot sequence: the counting/speeding-up parts were too fast; wanted it slower so the acceleration is actually felt/enjoyed. Clarified exact order: terminal flies in with bars empty and no text at all -> "Loading" word types in -> percentage rises -> other log lines type in line by line.
 - Feedback: the terminal box was growing in height as each line came up. Wanted a fixed final height from the start, with text filling into it rather than the box resizing.
+
+## 2026-08-11
+
+- New task: build the Products listing page at `/products`, then `/folio`, `/reelvault`, `/hearth` as one real parent + child route per product. Match existing design system exactly (accent `#0048FF`, Google Sans Flex self-hosted, JetBrains Mono for terminal/code, `rounded-none` buttons, dark-first palette, scroll-reveal + hover states). Build section-by-section, confirming each piece, logging everything in core.md — same discipline as the homepage build.
+- Uploaded `Product_Page__Listing.png` mockup — the `/products` page. Confirmed via analysis this reuses the existing design language (not a new one): Navbar → new Hero variant ("Native Utilities" / "Built To Run Fully Offline") → expanded "People Believes"-style alternating image/text panels for Folio, ReelVault, Hearth → same CTABanner → same Footer.
+- Answers to open questions:
+  1. Hero copy on `/products` is final, word-for-word, as shown in the mockup.
+  2. Placeholder image boxes: Fahim will drop real images in later — build as reserved placeholders for now.
+  3. Navbar "Product" link should point to `/products` once the page exists (previously `/#product` anchor on homepage).
+  4. Build `/products` first; `/folio`, `/reelvault`, `/hearth` mockups/scope to be provided after.
+- Background treatment instruction for `/products`, using the same homepage hero image (`hero-section-bg.png`) in three different treatments down the page:
+  1. Hero: fully desaturated (grayscale).
+  2. Next section (product listing): fully desaturated + rotated 180°.
+  3. Just before the final CTA banner: normal full color, no rotation.
+- Confirmed: full desaturation (not partial), rotate the whole image asset 180° (not a horizontal flip), and the "before final CTA" normal-color treatment is the glow bleeding in near the end of the listing section, right before the white CTA banner.
+- Said "go, fire up" with a fresh PAT — build began. Built and pushed the `/products` Hero section (`ProductsHero.tsx`, reusable `WaveBg.tsx` for the three background treatments) plus rewired the "Product" nav link and both "Visit Products Page" buttons (homepage Hero + CTABanner) to point to `/products`.
+

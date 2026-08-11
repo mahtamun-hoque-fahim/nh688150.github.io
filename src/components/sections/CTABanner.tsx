@@ -22,7 +22,7 @@ export function CTABanner() {
                 Download Folio
               </Button>
               <Button
-                href="/#product"
+                href="/products"
                 variant="secondary-light"
                 icon={<ShoppingBag className="h-4 w-4" strokeWidth={2.25} />}
               >

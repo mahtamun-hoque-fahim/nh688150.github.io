@@ -30,7 +30,7 @@ export function Hero() {
               Download Folio
             </Button>
             <Button
-              href="/#product"
+              href="/products"
               variant="secondary"
               icon={<ShoppingBag className="h-4 w-4" strokeWidth={2.25} />}
             >

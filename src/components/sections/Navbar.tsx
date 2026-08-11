@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Download, Menu, X } from "lucide-react";
 
 const links = [
-  { href: "/#product", label: "Product" },
+  { href: "/products", label: "Product" },
   { href: "/#privacy", label: "Privacy" },
   { href: "/#contact", label: "Contact" },
 ];
