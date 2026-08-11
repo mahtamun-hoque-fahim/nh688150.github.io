@@ -36,6 +36,10 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. Maximum 10 entries — drop the oldest when an 11th is added.)
 
+### 2026-08-08 (7)
+- Did: Fixed the terminal log box growing in height as lines streamed in -- it was `min-h-[112px]`, which let content overflow and expand the box as text accumulated. Measured the fully-populated height via Puppeteer (169px for all 7 eventual lines: Loading + 5 log lines + Initializing) and switched to a fixed `h-[172px] overflow-hidden` (small safety margin). Verified height stays exactly 172px at every sampled point across the full ~10s sequence, from empty fly-in to fully settled.
+- Next: Confirm on Vercel; continue toward `/folio`, `/reelvault`, `/hearth` subpages when ready.
+
 ### 2026-08-08 (6)
 - Did: Rewrote the boot sequence's pacing per Fahim's feedback -- previous version finished in under a second, too fast to perceive. New version: fly-in settles (900ms) with bars at 0% and terminal fully empty -> "[INFO] Loading..." types in character-by-character (~42ms/char) -> percentage counts 0-100 over 2.4s using an ease-in-quad curve (t*t) so it visibly starts slow and accelerates -> brief pause -> each of the 5 log lines types in character-by-character (~20ms/char, 240ms gap between lines) -> permanent looping "Initializing" + 0-3 dots. GPU/OCR bars fill independently over 2.8s using the same accelerating curve, starting at the same moment as the loading label. Full sequence now runs ~9-10s once, verified frame-by-frame via Puppeteer timestamped sampling. Reduced-motion still short-circuits straight to the final settled state.
 - Decided: used requestAnimationFrame + easeInQuad for the numeric ramps (bars, percentage) instead of the previous setInterval-with-random-increments approach -- produces a smooth, deliberately accelerating curve instead of jittery random steps, which is what actually reads as "speeding up" to a viewer.

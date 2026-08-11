@@ -240,7 +240,7 @@ export function DiagnosticPanel({ active }: DiagnosticPanelProps) {
           </div>
         </div>
 
-        <div className="min-h-[112px] rounded-md bg-surface p-4 text-xs leading-relaxed text-text-muted">
+        <div className="h-[172px] overflow-hidden rounded-md bg-surface p-4 text-xs leading-relaxed text-text-muted">
           {phase !== "idle" && (
             <p className={loadingPct < 100 ? "text-text" : "text-text-muted"}>
               {loadingLabelTyped}
