@@ -15,6 +15,12 @@ CSS variables in `src/app/globals.css` (Tailwind v4 — tokens auto-promote to u
   --color-border: #24262e;
   --color-border-strong: #33353f;
 
+  /* Glass / transparent cards */
+  --color-glass: #ffffff0f;
+  --color-glass-hover: #ffffff17;
+  --color-glass-border: #ffffff19;
+  --color-glass-border-strong: #ffffff26;
+
   /* Text */
   --color-text: #f5f6f8;
   --color-text-muted: #9a9ea8;
@@ -72,7 +78,10 @@ Tailwind defaults. Section vertical rhythm: `py-16` (CTA banner) to `py-28`–`p
 `variant="secondary-light"` — near-black fill, used only on the white CTA banner section.
 
 ### Product card
-`src/components/ui/ProductCard.tsx` — surface card, lifts (`-translate-y-1`) and brightens border on hover. Supports an optional badge (e.g. "BETA") and either a CTA link or a status line (for not-yet-shipped products like Hearth).
+`src/components/ui/ProductCard.tsx` — surface card, lifts (`-translate-y-1`) and brightens border on hover. Supports an optional badge (e.g. "BETA") and either a CTA link or a status line (for not-yet-shipped products like Hearth). Opaque fill (`bg-surface`) — not a transparent card, does not use the glass treatment below.
+
+### Glass / transparent card
+Standard for ANY card that sits over imagery/background art rather than a flat section background — e.g. `src/components/sections/ProductListing.tsx`'s product panels. Background: `bg-glass` (white at <10% opacity, `--color-glass`) + `backdrop-blur-md`. Border: `border-glass-border`, brightening to `border-glass-border-strong` + `bg-glass-hover` on hover. Do not use `bg-surface/NN` + arbitrary opacity for new transparent cards — always use the `glass` token set so every translucent card in the app shares one visual language.
 
 ### Diagnostic panel
 `src/components/ui/DiagnosticPanel.tsx` — client component, the Raw Performance section's signature element. GPU_THREAD_UTIL value drifts subtly every ~1.8s via `setInterval` for a "live system" feel; disabled under `prefers-reduced-motion`.

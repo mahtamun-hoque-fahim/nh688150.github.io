@@ -8,6 +8,13 @@
   --color-border: #24262e;
   --color-border-strong: #33353f;
 
+  /* Glass / transparent cards — white at <10% opacity, paired with backdrop-blur.
+     Standard treatment for any transparent card going forward. */
+  --color-glass: #ffffff0f;
+  --color-glass-hover: #ffffff17;
+  --color-glass-border: #ffffff19;
+  --color-glass-border-strong: #ffffff26;
+
   /* Text */
   --color-text: #f5f6f8;
   --color-text-muted: #9a9ea8;

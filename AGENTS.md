@@ -27,6 +27,7 @@ Execute automatically at the start of every session, before the first commit —
 - Next.js 16: this version has breaking changes from v15 — async `params`/`searchParams`/`cookies()`/`headers()`, Turbopack default, `proxy.ts` replaces `middleware.ts`. See the `next16builder` skill before writing new routes
 - All copy on the homepage is client-locked, including "People Believes" (intentional, confirmed by Fahim, not a typo to fix)
 - Session Log below has no entry cap — every session's entry is kept permanently, never dropped, regardless of count. This overrides repo-maintainer's default 10-entry cap for this repo specifically.
+- Transparent cards (any card using opacity/backdrop-blur rather than a flat surface fill) use the `glass` token set — `bg-glass` + `backdrop-blur-md`, `border-glass-border`. See DESIGN_GUIDE.md's "Glass / transparent card" pattern. Opaque cards like `ProductCard.tsx` (`bg-surface`, no blur) are unaffected — this rule only governs cards that are intentionally translucent.
 
 ## Security Gotchas
 
@@ -36,6 +37,11 @@ Execute automatically at the start of every session, before the first commit —
 ## Session Log
 
 (Newest first. No entry cap — see Conventions & Non-Negotiables.)
+
+### 2026-08-11 (12)
+- Did: Restyled `ProductListing.tsx`'s product panels from `bg-surface/80` + `backdrop-blur-sm` to the new glass treatment (`bg-glass` + `backdrop-blur-md`, `border-glass-border`) per Fahim's instruction that cards should be white at under 10% opacity with background blur. Added the `glass`/`glass-hover`/`glass-border`/`glass-border-strong` token set to `globals.css` and documented the pattern in `DESIGN_GUIDE.md` as the standard for any future transparent card — explicitly scoped to translucent cards only, not opaque ones like `ProductCard.tsx`.
+- Decided: kept `ProductCard.tsx` (homepage's 3-card grid) untouched — it's a solid `bg-surface` fill with no opacity/blur, not a transparent card, so the new rule doesn't apply to it.
+- Next: scope `/folio`, `/reelvault`, `/hearth` subpages with Fahim before building.
 
 ### 2026-08-11 (11)
 - Did: Logged Fahim's instruction that placeholder images across `/products` (Folio, ReelVault, Hearth panels) are temporary — real images will be uploaded from a dashboard once that's built. No dashboard exists yet; this is a forward-looking architectural note, not a current build task. Logged in `PLANNER.md`'s Notes & decisions and `core.md`.

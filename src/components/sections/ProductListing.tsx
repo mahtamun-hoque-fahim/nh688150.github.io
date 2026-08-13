@@ -66,7 +66,7 @@ export function ProductListing() {
         <div className="mt-16 flex flex-col gap-6">
           {products.map((product, i) => (
             <Reveal key={product.name} delayMs={i * 100}>
-              <div className="rounded-lg border border-border bg-surface/80 p-8 backdrop-blur-sm transition-colors duration-300 ease-out hover:border-border-strong sm:p-10">
+              <div className="rounded-lg border border-glass-border bg-glass p-8 backdrop-blur-md transition-colors duration-300 ease-out hover:border-glass-border-strong hover:bg-glass-hover sm:p-10">
                 <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
                   <div className={product.imageFirst ? "md:order-1" : "md:order-2"}>
                     <PlaceholderImage brief={product.imageBrief} />
