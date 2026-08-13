@@ -36,6 +36,10 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. Maximum 10 entries — drop the oldest when an 11th is added.)
 
+### 2026-08-11 (10)
+- Did: Replaced ProductListing's two-layer `WaveBg` background (rotated-desaturated + normal-color glow, both from `hero-section-bg.png`) with a single new pre-composited asset, `public/images/products-listing-bg.png` (from uploaded `Frame_98.png`, 1280x1502) — dark desaturated swirl baked into the top-right corner, blue glow baked into the bottom-left corner, no filters/rotation/opacity dialing needed anymore. Confirmed against a full-section reference screenshot (`Frame_98_1_.png`) the user provided showing the intended placement. `WaveBg.tsx` itself is untouched, still used by `ProductsHero.tsx`. Verified with build + Puppeteer scroll screenshots at both corners of the section.
+- Next: scope `/folio`, `/reelvault`, `/hearth` subpages with Fahim before building.
+
 ### 2026-08-11 (9)
 - Did: Fixed `ProductsHero.tsx` to be full-viewport, matching homepage `Hero.tsx` exactly — `min-h-[70vh]` → `min-h-screen`, `pt-20`/`pt-16 sm:pt-12` → `pt-32 sm:pt-24`. Verified with `tsc --noEmit`, `next build`, and Puppeteer screenshots (desktop + mobile). Committed and pushed (`d540b6e`).
 - Next: scope `/folio`, `/reelvault`, `/hearth` subpages with Fahim before building.

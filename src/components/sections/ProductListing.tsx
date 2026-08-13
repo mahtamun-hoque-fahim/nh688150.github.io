@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
-import { WaveBg } from "@/components/ui/WaveBg";
 
 interface Product {
   name: string;
@@ -45,13 +45,15 @@ const products: Product[] = [
 export function ProductListing() {
   return (
     <section className="relative overflow-hidden bg-[#0c0d11] py-28">
-      <WaveBg variant="rotated" className="opacity-[0.12]" />
-      <WaveBg
-        variant="normal"
-        position="right bottom"
-        opacity={0.85}
-        bounds="inset-x-0 bottom-0 h-[520px]"
-      />
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <Image
+          src="/images/products-listing-bg.png"
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+      </div>
 
       <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
         <Reveal className="text-center">
