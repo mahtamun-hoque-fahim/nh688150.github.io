@@ -3,10 +3,10 @@ import { WaveBg } from "@/components/ui/WaveBg";
 
 export function ProductsHero() {
   return (
-    <section className="relative flex min-h-[70vh] items-center overflow-hidden bg-bg pt-20">
+    <section className="relative flex min-h-screen items-center overflow-hidden bg-bg">
       <WaveBg variant="grayscale" parallax />
 
-      <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-16 text-center sm:pt-12 lg:px-8">
+      <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-32 text-center sm:pt-24 lg:px-8">
         <Reveal>
           <h1 className="text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
             Native Utilities
