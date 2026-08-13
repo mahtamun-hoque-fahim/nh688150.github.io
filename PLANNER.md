@@ -10,7 +10,7 @@
 
 **Key value.** Communicates "your data never leaves your machine" clearly enough that a visitor downloads Folio or visits the products page.
 
-**Current phase.** Building — homepage complete, `/products` and `/privacy` complete, `/folio` / `/reelvault` / `/hearth` / `/contact` not started.
+**Current phase.** Building — homepage, `/products`, `/privacy`, and `/contact` complete. `/folio` / `/reelvault` / `/hearth` not started.
 
 ---
 
@@ -88,10 +88,10 @@ Status: `[~]` in progress
 
 - [x] `/products` listing page
 - [x] `/privacy` page (built exactly per mockup; two known issues flagged, see Notes & decisions)
+- [x] `/contact` page (form UI + client-side state complete; submit handler stubbed, needs a real backend — see Notes & decisions)
 - [ ] `/folio` page
 - [ ] `/reelvault` page
 - [ ] `/hearth` page
-- [ ] `/contact` page
 - [ ] tree-man run to generate SITETREE.md once subpages are scoped
 
 ### Phase 3 — Launch readiness
@@ -131,3 +131,5 @@ In order:
 **2026-08-11.** `/privacy` built exactly per its mockup, per Fahim's explicit "build as it is, we'll edit it later." Two known issues carried over from the mockup, deliberately not fixed yet:
 1. Hero subtitle is a verbatim copy of `/products`' paragraph, including "Every product below runs entirely on your machine" — doesn't quite fit a page with no products listed.
 2. The 2nd and 3rd content cards are word-for-word identical, both titled "Telemetry & Analytics" with the same three paragraphs — needs a real 3rd section (or the duplicate removed) once Fahim decides what that content should be.
+
+**2026-08-11.** `/contact`'s form (`ContactForm.tsx`) is a fully working client-side UI — controlled inputs, validation, idle/submitting/success/error states — but the submit handler is a stub (a 600ms `setTimeout`, no real network call). Per AGENTS.md's no-backend-unless-needed rule, this wasn't wired to a real endpoint yet, but was deliberately built so it is: the `formData` shape (`name`, `email`, `subject`, `time`, `details`) matches what a real `/api/contact` route would expect, and the TODO comment in the submit handler marks exactly where to swap in a real call (e.g. Resend, matching the stack precedent noted below). When this becomes a priority, needs: an API route, an email service (Resend), and a decision on whether "Time" means preferred contact time/timezone or something else — currently just a free-text field with no semantic validation.

@@ -8,7 +8,7 @@ const productLinks = [
 
 const legalLinks = [
   { label: "Privacy", href: "/privacy" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Footer() {

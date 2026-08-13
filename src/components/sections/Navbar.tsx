@@ -8,7 +8,7 @@ import { Download, Menu, X } from "lucide-react";
 const links = [
   { href: "/products", label: "Product" },
   { href: "/privacy", label: "Privacy" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Navbar() {

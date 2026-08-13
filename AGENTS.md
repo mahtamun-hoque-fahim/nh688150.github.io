@@ -38,6 +38,11 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. No entry cap — see Conventions & Non-Negotiables.)
 
+### 2026-08-11 (15)
+- Did: Built `/contact` from the `Contact_1_.png` mockup. `ContactHero.tsx` — left-aligned, saturated (full-color) `products-listing-bg.png` positioned left-bottom, reusing the existing blue-glow asset rather than adding a new image. `ContactForm.tsx` — fully controlled client component (Name, Email, Subject+Time row, Details textarea), all inputs styled with the `glass` token set (`bg-glass` + `backdrop-blur-md`) per Fahim's "input fields itself are transparent ruled", `font-mono` text/placeholders per his "mono it is". Submit flow is a real stubbed async handler with idle/submitting/success/error states and semantic field names, explicitly structured so wiring a real `/api/contact` route later is a drop-in swap rather than a rebuild — matches AGENTS.md's no-backend-yet rule while still being "built so it can serve its purpose" once a backend exists. New `/contact` route (Navbar + Hero + Form + CTABanner + Footer), standard nav kept (not the mockup's Folio/ReelVault/Hearth links, per "nav as usual"). Rewired Navbar/Footer Contact links from `/#contact` anchor. Verified with build, screenshots, and an actual fill-and-submit test through all four status states.
+- Decided: kept `WaveBg.tsx`'s existing "normal" (full-color) variant unused here — the mockup's blue wave visually matches `products-listing-bg.png`'s bottom-left glow (already in the repo from the Products/Privacy build), not `hero-section-bg.png`'s silver/metallic full-color look. Used the existing asset directly rather than building a redundant treatment.
+- Next: scope `/folio`, `/reelvault`, `/hearth` subpages; revisit the two flagged `/privacy` issues when Fahim's ready; wire a real backend for the contact form once that's prioritized.
+
 ### 2026-08-11 (14)
 - Did: Increased stacked-card gap from `gap-6` (24px) to `gap-10` (40px) in `PrivacyContent.tsx` and `ProductListing.tsx` — both share the same full-width stacked-panel pattern, so applied consistently to both rather than just the page in active discussion. Verified with build + Puppeteer screenshot.
 - Next: revisit the two flagged Privacy-page issues when Fahim's ready; scope `/folio`, `/reelvault`, `/hearth`, `/contact` subpages.
