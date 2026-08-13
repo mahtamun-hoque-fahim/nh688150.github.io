@@ -10,7 +10,7 @@
 
 **Key value.** Communicates "your data never leaves your machine" clearly enough that a visitor downloads Folio or visits the products page.
 
-**Current phase.** Building — homepage complete, product subpages not started.
+**Current phase.** Building — homepage complete, `/products` and `/privacy` complete, `/folio` / `/reelvault` / `/hearth` / `/contact` not started.
 
 ---
 
@@ -84,11 +84,14 @@ Status: `[x]` done
 - [x] Responsive pass (mobile, tablet, desktop) verified via screenshot
 
 ### Phase 2 — Product subpages
-Status: `[ ]` pending
+Status: `[~]` in progress
 
+- [x] `/products` listing page
+- [x] `/privacy` page (built exactly per mockup; two known issues flagged, see Notes & decisions)
 - [ ] `/folio` page
 - [ ] `/reelvault` page
 - [ ] `/hearth` page
+- [ ] `/contact` page
 - [ ] tree-man run to generate SITETREE.md once subpages are scoped
 
 ### Phase 3 — Launch readiness
@@ -124,3 +127,7 @@ In order:
 **2026-08-08.** Hero and Navbar restructured: Navbar is `fixed` (floats transparently over the hero, no layout space of its own, frosted-glass kicks in on scroll); Hero is `min-h-screen` with a true full-bleed `object-cover` background. This was also the fix for a background-image crop bug — a full-viewport container's aspect ratio is much closer to the source image's native proportions than the previous short internal box was, so `cover` needs to crop far less (81.7% of the image visible vs. 44.8% before). Raw Performance section's background glow moved to section-level, bleeding up from below the card, rather than confined inside it — matches the mockup's subtle bottom-edge glow instead of a distracting shape stuffed into the card.
 
 **2026-08-11.** Placeholder images across `/products` (Folio, ReelVault, Hearth panels) are temporary — Fahim's plan is to eventually build a dashboard to upload real product images, which will replace these `PlaceholderImage`/`IMAGE-BRIEF` slots. No dashboard exists yet; this is a forward-looking note, not a Phase 2/3 commitment yet. Revisit once a dashboard/CMS phase is actually scoped — will need auth + storage (Cloudinary, per Falcotrix's would-be stack precedent) + likely a DB table for image metadata, none of which exist in this project today.
+
+**2026-08-11.** `/privacy` built exactly per its mockup, per Fahim's explicit "build as it is, we'll edit it later." Two known issues carried over from the mockup, deliberately not fixed yet:
+1. Hero subtitle is a verbatim copy of `/products`' paragraph, including "Every product below runs entirely on your machine" — doesn't quite fit a page with no products listed.
+2. The 2nd and 3rd content cards are word-for-word identical, both titled "Telemetry & Analytics" with the same three paragraphs — needs a real 3rd section (or the duplicate removed) once Fahim decides what that content should be.

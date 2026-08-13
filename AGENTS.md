@@ -38,6 +38,11 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. No entry cap — see Conventions & Non-Negotiables.)
 
+### 2026-08-11 (13)
+- Did: Built `/privacy` from the `Privacy_Page.png` mockup, matching it exactly per Fahim's "build as it is, we'll edit it later." New `PrivacyHero.tsx` (single-line title, same grayscale `WaveBg` hero pattern as `/products`), `PrivacyContent.tsx` (three stacked glass cards using the `bg-glass` treatment, same `products-listing-bg.png` background as `ProductListing`), and the `/privacy` route (Navbar + Hero + Content + CTABanner + Footer). Rewired Navbar/Footer "Privacy" links from `/#privacy` to the real route. Verified with build + Puppeteer screenshots.
+- Flagged, not fixed (explicitly deferred by Fahim): (1) hero subtitle is a verbatim copy of `/products`' paragraph, including a "product" reference that doesn't fit a Privacy page; (2) the 2nd and 3rd content cards are word-for-word identical, both "Telemetry & Analytics" — looks like a mockup placeholder repeat. Logged in `PLANNER.md`'s Notes & decisions as known follow-up items.
+- Next: revisit the two flagged Privacy-page issues when Fahim's ready; scope `/folio`, `/reelvault`, `/hearth`, `/contact` subpages.
+
 ### 2026-08-11 (12)
 - Did: Restyled `ProductListing.tsx`'s product panels from `bg-surface/80` + `backdrop-blur-sm` to the new glass treatment (`bg-glass` + `backdrop-blur-md`, `border-glass-border`) per Fahim's instruction that cards should be white at under 10% opacity with background blur. Added the `glass`/`glass-hover`/`glass-border`/`glass-border-strong` token set to `globals.css` and documented the pattern in `DESIGN_GUIDE.md` as the standard for any future transparent card — explicitly scoped to translucent cards only, not opaque ones like `ProductCard.tsx`.
 - Decided: kept `ProductCard.tsx` (homepage's 3-card grid) untouched — it's a solid `bg-surface` fill with no opacity/blur, not a transparent card, so the new rule doesn't apply to it.
