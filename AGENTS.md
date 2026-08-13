@@ -38,6 +38,10 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. No entry cap — see Conventions & Non-Negotiables.)
 
+### 2026-08-11 (14)
+- Did: Increased stacked-card gap from `gap-6` (24px) to `gap-10` (40px) in `PrivacyContent.tsx` and `ProductListing.tsx` — both share the same full-width stacked-panel pattern, so applied consistently to both rather than just the page in active discussion. Verified with build + Puppeteer screenshot.
+- Next: revisit the two flagged Privacy-page issues when Fahim's ready; scope `/folio`, `/reelvault`, `/hearth`, `/contact` subpages.
+
 ### 2026-08-11 (13)
 - Did: Built `/privacy` from the `Privacy_Page.png` mockup, matching it exactly per Fahim's "build as it is, we'll edit it later." New `PrivacyHero.tsx` (single-line title, same grayscale `WaveBg` hero pattern as `/products`), `PrivacyContent.tsx` (three stacked glass cards using the `bg-glass` treatment, same `products-listing-bg.png` background as `ProductListing`), and the `/privacy` route (Navbar + Hero + Content + CTABanner + Footer). Rewired Navbar/Footer "Privacy" links from `/#privacy` to the real route. Verified with build + Puppeteer screenshots.
 - Flagged, not fixed (explicitly deferred by Fahim): (1) hero subtitle is a verbatim copy of `/products`' paragraph, including a "product" reference that doesn't fit a Privacy page; (2) the 2nd and 3rd content cards are word-for-word identical, both "Telemetry & Analytics" — looks like a mockup placeholder repeat. Logged in `PLANNER.md`'s Notes & decisions as known follow-up items.

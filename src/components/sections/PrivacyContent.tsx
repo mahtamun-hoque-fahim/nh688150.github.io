@@ -47,7 +47,7 @@ export function PrivacyContent() {
       </div>
 
       <div className="relative mx-auto max-w-5xl px-6 lg:px-8">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-10">
           {sections.map((section, i) => (
             <Reveal key={`${section.title}-${i}`} delayMs={i * 100}>
               <div className="rounded-lg border border-glass-border bg-glass p-8 backdrop-blur-md transition-colors duration-300 ease-out hover:border-glass-border-strong hover:bg-glass-hover sm:p-10">

@@ -63,7 +63,7 @@ export function ProductListing() {
           <p className="mt-3 text-lg text-text-muted">In Reason. We Give Them Hope</p>
         </Reveal>
 
-        <div className="mt-16 flex flex-col gap-6">
+        <div className="mt-16 flex flex-col gap-10">
           {products.map((product, i) => (
             <Reveal key={product.name} delayMs={i * 100}>
               <div className="rounded-lg border border-glass-border bg-glass p-8 backdrop-blur-md transition-colors duration-300 ease-out hover:border-glass-border-strong hover:bg-glass-hover sm:p-10">
