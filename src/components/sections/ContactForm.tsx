@@ -22,7 +22,7 @@ const initialFormData: ContactFormData = {
 type SubmitStatus = "idle" | "submitting" | "success" | "error";
 
 const inputClasses =
-  "w-full rounded-lg border border-glass-border bg-glass px-5 py-4 font-mono text-sm text-text placeholder:font-mono placeholder:text-text-faint backdrop-blur-md transition-colors duration-200 ease-out outline-none focus:border-accent focus:bg-glass-hover";
+  "w-full rounded-none border border-glass-border bg-glass px-5 py-4 font-mono text-sm text-text placeholder:font-mono placeholder:text-text-faint backdrop-blur-md transition-colors duration-200 ease-out outline-none focus:border-accent focus:bg-glass-hover";
 
 export function ContactForm() {
   const [formData, setFormData] = useState<ContactFormData>(initialFormData);

@@ -63,9 +63,9 @@ Tailwind defaults. Section vertical rhythm: `py-16` (CTA banner) to `py-28`–`p
 
 | Token | Value | Use |
 |---|---|---|
+| `rounded-none` | 0px | Buttons, input fields (Name/Email/Subject/Time/Details) |
 | `rounded-sm` | 4px | Badges |
-| `rounded-md` | 6px | Buttons |
-| `rounded-lg` | 8px | Product cards |
+| `rounded-lg` | 8px | Product cards, glass/transparent cards |
 | `rounded-xl` | 12px | Raw Performance container |
 
 ## Components

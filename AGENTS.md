@@ -38,6 +38,10 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. No entry cap — see Conventions & Non-Negotiables.)
 
+### 2026-08-11 (17)
+- Did: Made all input fields sharp-corner (`rounded-none`) per "all the input fields are to be sharp corner" — changed `ContactForm.tsx`'s shared input/textarea class from `rounded-lg`. Matches the existing `Button.tsx` sharp-button convention. Also caught and fixed a stale entry in `DESIGN_GUIDE.md`'s border radius table — it documented "Buttons: rounded-md" but `Button.tsx` has always actually used `rounded-none`; corrected the table to match the real code and added the new input-fields row alongside it.
+- Next: scope `/folio`, `/reelvault`, `/hearth` subpages; revisit the two flagged `/privacy` issues when Fahim's ready; wire a real backend for the contact form once that's prioritized.
+
 ### 2026-08-11 (16)
 - Did: Made all hero section text white across the whole site, per "hero section > all texts should be white." Applied to `Hero.tsx`, `ProductsHero.tsx`, `PrivacyHero.tsx`, `ContactHero.tsx` — removed the two-tone heading pattern (second line no longer `text-text-muted`), changed subtitle paragraphs from `text-[#eeeeee]` to `text-white`. Documented as a standing rule in `DESIGN_GUIDE.md`'s Typography section so future heroes follow it by default. Verified with build + Puppeteer screenshots across all four pages.
 - Next: scope `/folio`, `/reelvault`, `/hearth` subpages; revisit the two flagged `/privacy` issues when Fahim's ready; wire a real backend for the contact form once that's prioritized.
