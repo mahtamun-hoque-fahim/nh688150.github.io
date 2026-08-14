@@ -17,13 +17,13 @@ export function ContactHero() {
 
       <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-32 sm:pt-24 lg:px-8">
         <Reveal>
-          <h1 className="text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight text-text-muted sm:text-6xl md:text-7xl">
+          <h1 className="text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
             Support &amp; Contact
           </h1>
         </Reveal>
 
         <Reveal delayMs={100}>
-          <p className="mt-6 max-w-2xl text-balance text-base text-[#eeeeee] sm:text-lg">
+          <p className="mt-6 max-w-2xl text-balance text-base text-white sm:text-lg">
             Falcotrix is committed to giving customers an absolute priority and continuously
             seeks new ideas and feedback. Whether you have a feature request for an existing
             Falcotrix product or a proposal for an entirely new tool, we welcome your input.

@@ -13,12 +13,12 @@ export function Hero() {
           <h1 className="text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
             Quality Software
             <br />
-            <span className="text-text-muted">On Your Machine</span>
+            On Your Machine
           </h1>
         </Reveal>
 
         <Reveal delayMs={100}>
-          <p className="mx-auto mt-6 max-w-2xl text-balance text-base text-[#eeeeee] sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-balance text-base text-white sm:text-lg">
             Zero cloud uploads. Everything runs locally on your hardware.
             High-performance desktop tools for PDF editing, video transcoding, and more.
           </p>

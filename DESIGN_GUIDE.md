@@ -53,6 +53,8 @@ Client-locked value: "Google Sans" per brief — implemented as Google Sans Flex
 
 **Size scale:** Tailwind defaults (`text-sm` through `text-7xl`) — hero headline runs `text-5xl` → `text-7xl` across breakpoints, section headings `text-4xl` → `text-5xl`.
 
+**Hero section text color:** all text in any hero section — heading and subtitle paragraph — is plain `text-white`. No two-tone headings (no `text-text-muted` spans mixed into a hero `h1`), no `#eeeeee`-tinted paragraphs. Applies to every hero across the site (homepage, `/products`, `/privacy`, `/contact`, and any future one).
+
 ## Spacing scale
 
 Tailwind defaults. Section vertical rhythm: `py-16` (CTA banner) to `py-28`–`py-32` (People Believes, Raw Performance).
