@@ -51,37 +51,39 @@ export function Navbar() {
           <span className="text-lg font-semibold tracking-tight">Falcotrix</span>
         </Link>
 
-        <ul className="hidden items-center gap-8 sm:flex">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="text-sm text-text-muted transition-colors duration-150 hover:text-text"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="flex items-center gap-6">
+          <ul className="hidden items-center gap-8 sm:flex">
+            {links.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-sm text-text-muted transition-colors duration-150 hover:text-text"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        <div className="flex items-center gap-3">
-          <Link
-            href="/#download"
-            className="hidden items-center gap-2 rounded-none bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 ease-out hover:bg-accent-hover hover:shadow-[0_0_0_1px_var(--color-accent-hover),0_0_20px_var(--color-accent-faint)] sm:inline-flex"
-          >
-            <Download className="h-4 w-4" strokeWidth={2.25} />
-            Download
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/#download"
+              className="hidden items-center gap-2 rounded-none bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 ease-out hover:bg-accent-hover hover:shadow-[0_0_0_1px_var(--color-accent-hover),0_0_20px_var(--color-accent-faint)] sm:inline-flex"
+            >
+              <Download className="h-4 w-4" strokeWidth={2.25} />
+              Download
+            </Link>
 
-          <button
-            type="button"
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="inline-flex items-center justify-center rounded-none border border-border bg-surface p-2.5 text-text transition-colors duration-150 hover:border-border-strong sm:hidden"
-          >
-            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="inline-flex items-center justify-center rounded-none border border-border bg-surface p-2.5 text-text transition-colors duration-150 hover:border-border-strong sm:hidden"
+            >
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
       </nav>
 
