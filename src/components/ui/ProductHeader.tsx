@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveBg } from "@/components/ui/WaveBg";
+import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 
 interface ProductHeaderProps {
   logoSrc: string;
@@ -34,6 +35,8 @@ export function ProductHeader({ logoSrc, logoAlt, name, tagline }: ProductHeader
           </div>
         </Reveal>
       </div>
+
+      <ScrollIndicator />
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { HeroParallaxBg } from "@/components/ui/HeroParallaxBg";
+import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 
 export function ContactHero() {
   return (
@@ -24,6 +25,8 @@ export function ContactHero() {
           </p>
         </Reveal>
       </div>
+
+      <ScrollIndicator />
     </section>
   );
 }

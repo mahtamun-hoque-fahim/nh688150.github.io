@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveBg } from "@/components/ui/WaveBg";
+import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 
 export function PrivacyHero() {
   return (
@@ -21,6 +22,8 @@ export function PrivacyHero() {
           </p>
         </Reveal>
       </div>
+
+      <ScrollIndicator />
     </section>
   );
 }

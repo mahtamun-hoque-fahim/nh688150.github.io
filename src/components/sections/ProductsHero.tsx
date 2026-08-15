@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveBg } from "@/components/ui/WaveBg";
+import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 
 export function ProductsHero() {
   return (
@@ -23,6 +24,8 @@ export function ProductsHero() {
           </p>
         </Reveal>
       </div>
+
+      <ScrollIndicator />
     </section>
   );
 }

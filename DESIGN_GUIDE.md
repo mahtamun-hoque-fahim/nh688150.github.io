@@ -98,6 +98,9 @@ Tailwind defaults. Section vertical rhythm: `py-16` (CTA banner) to `py-28`–`p
 ### Glass / transparent card
 Standard for ANY card that sits over imagery/background art rather than a flat section background — e.g. `src/components/sections/ProductListing.tsx`'s product panels. Background: `bg-glass` (white at <10% opacity, `--color-glass`) + `backdrop-blur-md`. Border: `border-glass-border`, brightening to `border-glass-border-strong` + `bg-glass-hover` on hover. Do not use `bg-surface/NN` + arbitrary opacity for new transparent cards — always use the `glass` token set so every translucent card in the app shares one visual language.
 
+### Scroll indicator
+`src/components/ui/ScrollIndicator.tsx` — small animated `ChevronDown`, absolutely positioned bottom-center of the section (`bottom-8`), gentle bob + fade via the `animate-scroll-hint` CSS keyframe. Standard on every hero section — homepage, `/products`, `/privacy`, `/contact`, and the generic `ProductHeader` used by every individual product page. Any new hero-style section should include it by default.
+
 ### Diagnostic panel
 `src/components/ui/DiagnosticPanel.tsx` — client component, the Raw Performance section's signature element. GPU_THREAD_UTIL value drifts subtly every ~1.8s via `setInterval` for a "live system" feel; disabled under `prefers-reduced-motion`.
 

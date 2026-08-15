@@ -2,6 +2,7 @@ import { Download, ShoppingBag } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { HeroParallaxBg } from "@/components/ui/HeroParallaxBg";
+import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 
 export function Hero() {
   return (
@@ -39,6 +40,8 @@ export function Hero() {
           </div>
         </Reveal>
       </div>
+
+      <ScrollIndicator />
     </section>
   );
 }
