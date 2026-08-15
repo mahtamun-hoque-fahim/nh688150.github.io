@@ -10,7 +10,7 @@
 
 **Key value.** Communicates "your data never leaves your machine" clearly enough that a visitor downloads Folio or visits the products page.
 
-**Current phase.** Building — homepage, `/products`, `/privacy`, and `/contact` complete. `/folio` / `/reelvault` / `/hearth` not started.
+**Current phase.** Building — homepage, `/products`, `/privacy`, `/contact`, and `/folio` complete. `/reelvault` / `/hearth` not started.
 
 ---
 
@@ -89,7 +89,7 @@ Status: `[~]` in progress
 - [x] `/products` listing page
 - [x] `/privacy` page (built exactly per mockup; two known issues flagged, see Notes & decisions)
 - [x] `/contact` page (form UI + client-side state complete; submit handler stubbed, needs a real backend — see Notes & decisions)
-- [ ] `/folio` page
+- [x] `/folio` page (built `ProductHeader`/`ProductDetail` as generic reusable components — ReelVault/Hearth are a content swap, not a rebuild; module copy and screenshots are placeholders pending admin dashboard — see Notes & decisions)
 - [ ] `/reelvault` page
 - [ ] `/hearth` page
 - [ ] tree-man run to generate SITETREE.md once subpages are scoped
@@ -133,3 +133,5 @@ In order:
 2. The 2nd and 3rd content cards are word-for-word identical, both titled "Telemetry & Analytics" with the same three paragraphs — needs a real 3rd section (or the duplicate removed) once Fahim decides what that content should be.
 
 **2026-08-11.** `/contact`'s form (`ContactForm.tsx`) is a fully working client-side UI — controlled inputs, validation, idle/submitting/success/error states — but the submit handler is a stub (a 600ms `setTimeout`, no real network call). Per AGENTS.md's no-backend-unless-needed rule, this wasn't wired to a real endpoint yet, but was deliberately built so it is: the `formData` shape (`name`, `email`, `subject`, `time`, `details`) matches what a real `/api/contact` route would expect, and the TODO comment in the submit handler marks exactly where to swap in a real call (e.g. Resend, matching the stack precedent noted below). When this becomes a priority, needs: an API route, an email service (Resend), and a decision on whether "Time" means preferred contact time/timezone or something else — currently just a free-text field with no semantic validation.
+
+**2026-08-11.** `/folio`'s Modules section content and Screenshots grid are both explicitly temporary, per Fahim's instruction to log this: the 6 module titles/descriptions are hardcoded verbatim from the mockup for now, but will eventually be provided from an admin dashboard once one is built — same forward-looking status as the dashboard-driven product images noted above. Same for the Screenshots grid, currently `PlaceholderImage` reserved slots. `ProductHeader` and `ProductDetail` (in `src/components/ui/` and `src/components/sections/` respectively) were built as generic, prop-driven components specifically so that when a real dashboard/CMS phase happens, swapping hardcoded content for fetched data is a data-source change, not a component rewrite — and so `/reelvault`/`/hearth` can reuse them today with different props.
