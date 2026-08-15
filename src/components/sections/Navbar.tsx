@@ -51,7 +51,7 @@ export function Navbar() {
           <span className="text-lg font-semibold tracking-tight">Falcotrix</span>
         </Link>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-8 sm:flex">
           {links.map((link) => (
             <li key={link.href}>
               <Link
@@ -78,7 +78,7 @@ export function Navbar() {
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="inline-flex items-center justify-center rounded-none border border-border bg-surface p-2.5 text-text transition-colors duration-150 hover:border-border-strong md:hidden"
+            className="inline-flex items-center justify-center rounded-none border border-border bg-surface p-2.5 text-text transition-colors duration-150 hover:border-border-strong sm:hidden"
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -86,7 +86,7 @@ export function Navbar() {
       </nav>
 
       {menuOpen && (
-        <div className="border-t border-border px-6 pb-6 pt-2 md:hidden">
+        <div className="border-t border-border px-6 pb-6 pt-2 sm:hidden">
           <ul className="flex flex-col gap-1">
             {links.map((link) => (
               <li key={link.href}>
