@@ -26,7 +26,7 @@ const products = [
 export function PeopleBelieve() {
   return (
     <section id="product" className="relative bg-[#0c0d11] py-28">
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-6">
         <Reveal className="text-center">
           <h2 className="font-display text-4xl font-medium tracking-tight sm:text-5xl">
             People Believes

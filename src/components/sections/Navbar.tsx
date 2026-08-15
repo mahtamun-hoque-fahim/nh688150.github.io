@@ -38,7 +38,7 @@ export function Navbar() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+      <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 lg:px-6">
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setMenuOpen(false)}>
           <Image
             src="/images/logo.png"

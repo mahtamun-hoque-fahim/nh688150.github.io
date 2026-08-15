@@ -46,7 +46,7 @@ export function PrivacyContent() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-5xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-6 lg:px-6">
         <div className="flex flex-col gap-10">
           {sections.map((section, i) => (
             <Reveal key={`${section.title}-${i}`} delayMs={i * 100}>

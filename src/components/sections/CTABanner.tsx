@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 export function CTABanner() {
   return (
     <section id="download" className="bg-light-bg py-16">
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-6">
         <Reveal>
           <div className="flex flex-col items-start justify-between gap-8 rounded-xl bg-light-bg lg:flex-row lg:items-center">
             <div>

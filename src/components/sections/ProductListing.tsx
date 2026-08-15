@@ -55,7 +55,7 @@ export function ProductListing() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-6">
         <Reveal className="text-center">
           <h2 className="font-display text-4xl font-medium tracking-tight sm:text-5xl">
             People Believes

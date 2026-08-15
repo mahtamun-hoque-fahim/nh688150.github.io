@@ -14,7 +14,7 @@ const legalLinks = [
 export function Footer() {
   return (
     <footer id="contact" className="border-t border-border bg-bg py-16">
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-6">
         <div className="grid gap-12 sm:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <span className="text-lg font-semibold tracking-tight">Falcotrix</span>

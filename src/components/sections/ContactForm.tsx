@@ -53,7 +53,7 @@ export function ContactForm() {
 
   return (
     <section className="relative overflow-hidden bg-[#0c0d11] py-28">
-      <div className="relative mx-auto max-w-3xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-4xl px-6 lg:px-6">
         <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
           <div>
             <label htmlFor="contact-name" className="sr-only">

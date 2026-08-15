@@ -30,7 +30,7 @@ export function RawPerformance() {
 
   return (
     <section className="relative overflow-hidden bg-[#0c0d11] pb-32 pt-4">
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-6">
         <div
           ref={sectionRef}
           className={`reveal ${active ? "is-visible" : ""}`}

@@ -14,7 +14,7 @@ export function ProductHeader({ logoSrc, logoAlt, name, tagline }: ProductHeader
     <section className="relative flex min-h-[80vh] items-center overflow-hidden bg-bg">
       <WaveBg variant="grayscale" parallax />
 
-      <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-32 sm:pt-24 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-32 sm:pt-24 lg:px-6">
         <Reveal>
           <div className="flex items-center gap-5">
             <Image

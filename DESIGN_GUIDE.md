@@ -2,6 +2,19 @@
 
 Implementation spec for the design system. No rationale. No marketing copy. Just tokens, patterns, and constraints.
 
+## Layout / container widths
+
+Every section's outer container follows this scale — `mx-auto max-w-{N} px-6 lg:px-6`:
+
+| Context | Max-width |
+|---|---|
+| Navbar | `max-w-[1400px]` (custom, wider than any content container) |
+| Wide content (ProductDetail, ProductListing, PeopleBelieve, RawPerformance, CTABanner, Footer) | `max-w-7xl` |
+| Hero sections, PrivacyContent, ProductHeader | `max-w-6xl` |
+| Narrow content (ContactForm) | `max-w-4xl` |
+
+Base padding is `px-6` at all sizes; `lg:px-6` (not `lg:px-8`) at large breakpoints — kept intentionally tight so containers don't leave excess edge gap on common desktop widths (1366-1440px). Don't reach for `lg:px-8` on new sections.
+
 ## Color tokens
 
 CSS variables in `src/app/globals.css` (Tailwind v4 — tokens auto-promote to utilities):

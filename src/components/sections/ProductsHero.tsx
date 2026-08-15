@@ -6,7 +6,7 @@ export function ProductsHero() {
     <section className="relative flex min-h-screen items-center overflow-hidden bg-bg">
       <WaveBg variant="grayscale" parallax />
 
-      <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-32 text-center sm:pt-24 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-32 text-center sm:pt-24 lg:px-6">
         <Reveal>
           <h1 className="text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
             Native Utilities
