@@ -38,6 +38,10 @@ Execute automatically at the start of every session, before the first commit —
 
 (Newest first. No entry cap — see Conventions & Non-Negotiables.)
 
+### 2026-08-11 (18)
+- Did: Swapped `ContactHero.tsx`'s background from `products-listing-bg.png` to reusing `HeroParallaxBg` directly, per "use the background image of homepage hero to contact page hero background image." Now uses the exact same asset (`hero-section-bg.png`), positioning, and scroll-parallax behavior as the homepage Hero — not just a visually similar treatment. Removed the now-unused inline `next/image` block. Verified with build + Puppeteer screenshot.
+- Next: scope `/folio`, `/reelvault`, `/hearth` subpages; revisit the two flagged `/privacy` issues when Fahim's ready; wire a real backend for the contact form once that's prioritized.
+
 ### 2026-08-11 (17)
 - Did: Made all input fields sharp-corner (`rounded-none`) per "all the input fields are to be sharp corner" — changed `ContactForm.tsx`'s shared input/textarea class from `rounded-lg`. Matches the existing `Button.tsx` sharp-button convention. Also caught and fixed a stale entry in `DESIGN_GUIDE.md`'s border radius table — it documented "Buttons: rounded-md" but `Button.tsx` has always actually used `rounded-none`; corrected the table to match the real code and added the new input-fields row alongside it.
 - Next: scope `/folio`, `/reelvault`, `/hearth` subpages; revisit the two flagged `/privacy` issues when Fahim's ready; wire a real backend for the contact form once that's prioritized.

@@ -1,19 +1,10 @@
-import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
+import { HeroParallaxBg } from "@/components/ui/HeroParallaxBg";
 
 export function ContactHero() {
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden bg-bg">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <Image
-          src="/images/products-listing-bg.png"
-          alt=""
-          fill
-          className="object-cover"
-          style={{ objectPosition: "left bottom" }}
-          sizes="100vw"
-        />
-      </div>
+      <HeroParallaxBg />
 
       <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-32 sm:pt-24 lg:px-8">
         <Reveal>
