@@ -6,8 +6,14 @@
  * Usage: npm run create-admin -- you@example.com "your name" "a-strong-password"
  */
 import { auth } from "../src/lib/auth";
+import { getDb } from "../src/lib/db";
 
 async function main() {
+  if (!getDb()) {
+    console.error("DATABASE_URL is not set. Add it to .env.local and try again.");
+    process.exit(1);
+  }
+
   const [email, name, password] = process.argv.slice(2);
 
   if (!email || !name || !password) {
