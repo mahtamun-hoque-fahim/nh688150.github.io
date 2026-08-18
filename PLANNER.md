@@ -89,6 +89,12 @@ Neon (Postgres) + Drizzle ORM. Schema lives in `src/lib/db/schema.ts`.
 - Server Actions (not REST routes, called directly from Client Components): `src/lib/actions/invites.ts` — `createInvite`, `getInviteByToken`, `acceptInvite`, `listInvites`, `listAdmins`
 - More Server Actions land here as Studio's Pages/Products/Media/Contact screens are built (see Studio phase below)
 
+**One-off scripts** (not part of the deployed app, run manually):
+- `npm run seed` — idempotent, migrates today's hardcoded marketing copy + Folio's content into real DB rows. Safe to re-run.
+- `npm run create-admin -- email name password` — bootstraps the very first admin account. Every admin after that is created via the in-app invite flow, not this script.
+- `npm run db:push` — pushes the Drizzle schema to Neon (no migration files, direct sync — fine for this project's stage)
+- `npm run db:studio` — opens Drizzle's own DB browser UI locally
+
 ---
 
 ## Env Vars
@@ -136,7 +142,7 @@ Status: `[~]` in progress
 - [x] `/studio/login`, `/studio/forgot-password`, `/studio/reset-password`, `/studio/accept-invite/[token]` — full auth UI, invite-link account creation (no shared temp passwords), self-service password reset
 - [x] `/studio` dashboard shell (sidebar nav, sign-out) + `/studio/team` (list admins, list/send invites) — fully functional against the invite Server Actions
 - [x] Verified: `tsc --noEmit` clean, `next build` succeeds (marketing pages stay static, Studio/auth pages correctly dynamic), redirect flow tested end-to-end with a temporary local-only test secret (not a real credential, never committed)
-- [ ] Step 2: Migration/seed script — move Folio's current hardcoded content into real `product`/`product_module` rows
+- [x] Step 2: `src/lib/content-schemas.ts` — zod schemas per `(page, sectionKey)`, the shared source of truth for both the seed script and the future dashboard section editor. `scripts/seed.ts` (`npm run seed`) — idempotent, migrates every page's current hardcoded copy into real `page_section` rows (home/products/privacy/contact heroes, People Believes, Raw Performance, CTA banner × 4 pages, Footer, all 3 Privacy cards including the still-unfixed duplicate) plus Folio's `product` + 6 `product_module` rows. `scripts/create-admin.ts` (`npm run create-admin`) — bootstraps Fahim's first admin account directly (every account after that goes through the invite flow, not this script).
 - [ ] Step 3: Media Library UI (Cloudinary upload, asset picker) — `/studio/media` is currently a placeholder
 - [ ] Step 4: Product CRUD screens (create ReelVault/Hearth from the template, edit Folio) — `/studio/products` is currently a placeholder
 - [ ] Step 5: Page section editor (Home/Products/Privacy/Contact copy + backgrounds) — `/studio/pages` is currently a placeholder
