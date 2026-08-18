@@ -10,7 +10,7 @@
 
 **Key value.** Communicates "your data never leaves your machine" clearly enough that a visitor downloads Folio or visits the products page.
 
-**Current phase.** Building — homepage, `/products`, `/privacy`, `/contact`, and `/folio` complete. `/reelvault` / `/hearth` not started.
+**Current phase.** Building — homepage, `/products`, `/privacy`, `/contact`, and `/folio` complete. Falcotrix Studio (`/studio`, admin dashboard) underway — auth/schema foundation done, content-management screens (Pages, Products, Media, Contact inbox) still placeholders.
 
 ---
 
@@ -22,7 +22,7 @@
 - Styling: Tailwind CSS v4 (tokens in `globals.css`)
 - Fonts: self-hosted via Fontsource — `@fontsource-variable/google-sans-flex`, `@fontsource-variable/jetbrains-mono` (not `next/font/google` — see Notes & decisions)
 - Icons: lucide-react only, no emoji
-- Database / Auth: none at this stage — pure marketing site, no user accounts
+- Database / Auth: Neon (Postgres) + Drizzle ORM, Better Auth (email/password, admin plugin, invite-only account creation — no public sign-up). Introduced for Falcotrix Studio (`/studio`), the admin dashboard. See DB Schema, API Routes, Env Vars below.
 - Deployment: Vercel (primary); Cloudflare Workers via `@opennextjs/cloudflare` planned as secondary, not yet configured
 
 **Deployment topology:**
@@ -40,30 +40,65 @@
 2. Reads hero — "Quality Software On Your Machine"
 3. Scrolls to "People Believes" — sees Folio / ReelVault / Hearth cards
 4. Clicks "Download Folio" (hero, or CTA banner, or navbar) → `/#download` anchor for now, real download link TBD
-5. Or clicks "Explore Folio" on the product card → `/folio` (not yet built)
+5. Or clicks "Explore Folio" on the product card → `/folio` (moving to `/products/folio` once Studio's dynamic product route ships — see Studio phase)
 
 ### Flow 2: Visitor checks legitimacy before downloading
 1. Lands on `/`
 2. Scrolls to "Raw Performance" section — reads the local-hardware pitch, sees the diagnostic panel
 3. Scrolls to footer → clicks "Privacy" or "Contact"
 
+### Flow 3: Admin signs in and invites a teammate
+1. Admin goes to `/studio/login`, signs in with email/password
+2. From `/studio/team`, enters a teammate's email and sends an invite
+3. Teammate receives an email (Resend) with a link to `/studio/accept-invite/[token]`
+4. Teammate sets their own name + password — Better Auth's `admin` plugin creates the account server-side (`auth.api.createUser`), independent of the public sign-up route, which stays disabled
+5. Teammate is redirected to `/studio/login` to sign in with their new credentials
+
+### Flow 4: Admin forgets their password
+1. From `/studio/login`, clicks "Forgot password?" → `/studio/forgot-password`
+2. Enters email, Better Auth's `sendResetPassword` callback emails a reset link via Resend
+3. Link lands on `/studio/reset-password?token=...`, admin sets a new password
+4. No other admin or "owner" is ever in this loop — self-service, structurally (hashed passwords, no plaintext recovery)
+
 ---
 
 ## DB Schema
 
-Not applicable — no database in this project yet. Add this section if/when Folio's download tracking, beta signup (ReelVault), or a contact form needs persistence.
+Neon (Postgres) + Drizzle ORM. Schema lives in `src/lib/db/schema.ts`.
+
+**Better Auth tables** (shape required by the Drizzle adapter — don't rename columns without checking Better Auth's docs first):
+- `user` — id, name, email, emailVerified, image, `role` (flat "admin" for everyone), `banned`/`banReason`/`banExpires` (admin plugin fields, unused today), timestamps
+- `session` — id, userId, token, expiresAt, ipAddress, userAgent, impersonatedBy, timestamps
+- `account` — id, userId, accountId, providerId, password (hashed), OAuth token fields (unused, credential-only today), timestamps
+- `verification` — id, identifier, value, expiresAt, timestamps (Better Auth's internal token storage — password reset, etc.)
+
+**App tables:**
+- `invite` — id, email, token, invitedByUserId, status (pending/accepted/expired), expiresAt, createdAt. Link-based invites, no shared temp passwords.
+- `media_asset` — id, url, cloudinaryPublicId, altText, width, height, createdByUserId, createdAt. Every uploaded image lives here once; any content slot below references an asset by id — shared or unique per slot is a dashboard choice, not a schema distinction.
+- `page_section` — id, page (home/products/privacy/contact), sectionKey (hero/about/cta_banner/card_1/...), content (jsonb, shape varies per sectionKey), backgroundMediaId, updatedByUserId, updatedAt. Unique on (page, sectionKey). Layout/animation stays code-controlled; only content + background are editable.
+- `product` — id, slug (unique), name, tagline, published, order, logoMediaId, listingImageMediaId, heroBackgroundMediaId, contentBackgroundMediaId, aboutParagraphs (jsonb string[]), aboutTagline, aboutClosing, updatedByUserId, timestamps. A slug only resolves to a live `/products/[slug]` route if a row exists with `published = true`.
+- `product_module` — id, productId, title, description, order
+- `product_screenshot` — id, productId, mediaId, caption, order
+- `contact_message` — id, name, email, subject, time, details, status (new/read/archived), createdAt
 
 ---
 
 ## API Routes
 
-None yet. All CTAs currently point to in-page anchors or future static routes (`/folio`, `/reelvault`, `/hearth`).
+- `POST/GET /api/auth/[...all]` — Better Auth's mounted handler (sign-in, sign-out, session, password reset, admin plugin endpoints)
+- Server Actions (not REST routes, called directly from Client Components): `src/lib/actions/invites.ts` — `createInvite`, `getInviteByToken`, `acceptInvite`, `listInvites`, `listAdmins`
+- More Server Actions land here as Studio's Pages/Products/Media/Contact screens are built (see Studio phase below)
 
 ---
 
 ## Env Vars
 
-None required yet — the site is fully static with no external services wired up.
+None of these have real values yet — schema/code is built and verified (`tsc`, `next build` both pass), but nothing has been tested against a live Neon/Cloudinary/Resend account. See `.env.example` for the full documented list:
+
+- `DATABASE_URL` / `DATABASE_URL_UNPOOLED` — Neon, pooled vs. direct
+- `BETTER_AUTH_SECRET` / `BETTER_AUTH_URL` / `NEXT_PUBLIC_BETTER_AUTH_URL` — Better Auth
+- `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` — Media Library uploads
+- `RESEND_API_KEY` / `CONTACT_NOTIFY_EMAIL` — invite emails, password resets, contact form notifications
 
 ---
 
@@ -90,11 +125,26 @@ Status: `[~]` in progress
 - [x] `/privacy` page (built exactly per mockup; two known issues flagged, see Notes & decisions)
 - [x] `/contact` page (form UI + client-side state complete; submit handler stubbed, needs a real backend — see Notes & decisions)
 - [x] `/folio` page (built `ProductHeader`/`ProductDetail` as generic reusable components — ReelVault/Hearth are a content swap, not a rebuild; module copy and screenshots are placeholders pending admin dashboard — see Notes & decisions)
-- [ ] `/reelvault` page
-- [ ] `/hearth` page
+- [ ] `/reelvault` page — deferred, will be created via Studio's Products screen once built, not hand-written
+- [ ] `/hearth` page — same as above
 - [ ] tree-man run to generate SITETREE.md once subpages are scoped
 
-### Phase 3 — Launch readiness
+### Phase 3 — Studio (admin dashboard)
+Status: `[~]` in progress
+
+- [x] Step 1: Drizzle schema (Better Auth tables + invite/media_asset/page_section/product/product_module/product_screenshot/contact_message), Neon client (`getDb()`, lazy), Better Auth instance (email/password, `disableSignUp: true`, admin plugin, Resend-backed password reset), `/api/auth/[...all]` handler, `proxy.ts` route protection, `.env.example`
+- [x] `/studio/login`, `/studio/forgot-password`, `/studio/reset-password`, `/studio/accept-invite/[token]` — full auth UI, invite-link account creation (no shared temp passwords), self-service password reset
+- [x] `/studio` dashboard shell (sidebar nav, sign-out) + `/studio/team` (list admins, list/send invites) — fully functional against the invite Server Actions
+- [x] Verified: `tsc --noEmit` clean, `next build` succeeds (marketing pages stay static, Studio/auth pages correctly dynamic), redirect flow tested end-to-end with a temporary local-only test secret (not a real credential, never committed)
+- [ ] Step 2: Migration/seed script — move Folio's current hardcoded content into real `product`/`product_module` rows
+- [ ] Step 3: Media Library UI (Cloudinary upload, asset picker) — `/studio/media` is currently a placeholder
+- [ ] Step 4: Product CRUD screens (create ReelVault/Hearth from the template, edit Folio) — `/studio/products` is currently a placeholder
+- [ ] Step 5: Page section editor (Home/Products/Privacy/Contact copy + backgrounds) — `/studio/pages` is currently a placeholder
+- [ ] Step 6: Contact form → real DB write + `/studio/contact` inbox (currently a placeholder) + Resend notification
+- [ ] Step 7: Swap every hardcoded marketing page over to DB reads; move `/folio` → `/products/folio` with a redirect from the old URL; dynamic `app/products/[slug]/page.tsx` route
+- [ ] Real Neon, Cloudinary, and Resend credentials needed before any of this can be tested live — Fahim to provide when ready, flagged individually as each becomes necessary
+
+### Phase 4 — Launch readiness
 Status: `[ ]` pending
 
 - [ ] Real download links (replace `/#download` anchor)
