@@ -117,7 +117,7 @@ export const pageSection = pgTable(
     id: text("id").primaryKey(),
     page: text("page").notNull(), // home | products | privacy | contact
     sectionKey: text("section_key").notNull(), // hero | about | cta_banner | card_1 ...
-    content: jsonb("content").notNull(),
+    content: jsonb("content").$type<Record<string, unknown>>().notNull(),
     backgroundMediaId: text("background_media_id").references(() => mediaAsset.id, {
       onDelete: "set null",
     }),
@@ -154,7 +154,7 @@ export const product = pgTable("product", {
     { onDelete: "set null" },
   ),
 
-  aboutParagraphs: jsonb("about_paragraphs").notNull().default([]), // string[]
+  aboutParagraphs: jsonb("about_paragraphs").$type<string[]>().notNull().default([]),
   aboutTagline: text("about_tagline"),
   aboutClosing: text("about_closing"),
 

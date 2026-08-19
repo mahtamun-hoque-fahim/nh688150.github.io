@@ -15,7 +15,7 @@ import type { SectionRegistryKey } from "../src/lib/content-schemas";
 
 const db = getDb();
 
-async function upsertSection(key: SectionRegistryKey, content: object) {
+async function upsertSection(key: SectionRegistryKey, content: Record<string, unknown>) {
   const [page, sectionKey] = key.split(":");
 
   const existing = await db
