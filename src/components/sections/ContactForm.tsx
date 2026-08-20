@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Send, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { submitContactMessage } from "@/lib/actions/contact";
 
 interface ContactFormData {
   name: string;
@@ -27,6 +28,7 @@ const inputClasses =
 export function ContactForm() {
   const [formData, setFormData] = useState<ContactFormData>(initialFormData);
   const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   function updateField<K extends keyof ContactFormData>(field: K, value: ContactFormData[K]) {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -35,18 +37,18 @@ export function ContactForm() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
+    setErrorMessage(null);
 
-    // TODO: wire to a real backend once one exists — e.g. POST to /api/contact
-    // (Resend or similar), per AGENTS.md's "no backend unless a real feature
-    // requires it, confirm with Fahim first". This stub is structured so the
-    // swap is a drop-in: same formData shape, same status states.
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      setStatus("success");
-      setFormData(initialFormData);
-    } catch {
+    const result = await submitContactMessage(formData);
+
+    if (result.error) {
+      setErrorMessage(result.error);
       setStatus("error");
+      return;
     }
+
+    setStatus("success");
+    setFormData(initialFormData);
   }
 
   const isSubmitting = status === "submitting";
@@ -160,7 +162,7 @@ export function ContactForm() {
             {status === "error" && (
               <span className="inline-flex items-center gap-1.5 text-sm text-[#f87171]">
                 <AlertCircle className="h-4 w-4" strokeWidth={2.25} />
-                Something went wrong. Try again.
+                {errorMessage ?? "Something went wrong. Try again."}
               </span>
             )}
           </div>
